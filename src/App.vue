@@ -27,4 +27,12 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+body {
+  background-image: url("https://raw.githubusercontent.com/bit-orbit/lofi/master/files/bg/bg.gif");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100%;
+}
 </style>
