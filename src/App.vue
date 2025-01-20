@@ -34,5 +34,6 @@ body {
   background-attachment: fixed;
   background-size: cover;
   height: 100%;
+  background-position: center center;
 }
 </style>
