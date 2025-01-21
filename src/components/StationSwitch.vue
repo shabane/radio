@@ -3,9 +3,9 @@
     <div class="slidecontainer">
       <input
         type="range"
-        min="1"
-        max="100"
-        value="50"
+        :min="stationMin"
+        :max="stationMax"
+        value="1"
         class="slider"
         id="stationSlider"
       />
@@ -16,6 +16,10 @@
 <script>
 export default {
   name: "StationSwitch",
+  props: {
+    stationMax: Number,
+    stationMin: Number,
+  },
 };
 </script>
 
