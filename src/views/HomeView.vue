@@ -1,5 +1,12 @@
 <template>
   <div class="home">
+    <audio controls autoplay id="player" hidden>
+      <source
+        src="https://raw.githubusercontent.com/bit-orbit/lofi/master/files/musics/nuver-exhale.opus"
+        type="audio/ogg"
+        autoplay
+      />
+    </audio>
     <div class="col">
       <StationSwitch class="stationSwitch col-10" />
       <div class="fix-btm-vol col-2">
@@ -50,7 +57,9 @@ export default {
           .classList.remove("btn-outline-light");
       }
       document.getElementById(`vol-${vol}`).classList.add("btn-outline-light");
+      document.getElementById("player").volume = vol / 100;
     },
   },
+  mounted() {},
 };
 </script>
