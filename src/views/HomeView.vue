@@ -21,10 +21,26 @@
 
         <button
           class="btn btn-outline-secondary m-1"
+          @click="changeVolTo(25)"
+          id="vol-25"
+        >
+          II
+        </button>
+
+        <button
+          class="btn btn-outline-secondary m-1"
           @click="changeVolTo(50)"
           id="vol-50"
         >
-          II
+          III
+        </button>
+
+        <button
+          class="btn btn-outline-secondary m-1"
+          @click="changeVolTo(75)"
+          id="vol-75"
+        >
+          IV
         </button>
 
         <button
@@ -32,7 +48,7 @@
           @click="changeVolTo(100)"
           id="vol-100"
         >
-          III
+          V
         </button>
       </div>
     </div>
@@ -51,7 +67,7 @@ export default {
   },
   methods: {
     changeVolTo(vol) {
-      for (let i of [0, 50, 100]) {
+      for (let i of [0, 25, 50, 75, 100]) {
         document
           .getElementById(`vol-${i}`)
           .classList.remove("btn-outline-light");
