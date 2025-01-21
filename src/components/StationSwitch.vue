@@ -26,7 +26,7 @@ export default {
 
 .slider {
   -webkit-appearance: none;
-  width: 90%;
+  width: 95%;
   height: 15px;
   border-radius: 5px;
   background: #313131;

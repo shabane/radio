@@ -5,3 +5,10 @@
     width: 100%;
     text-align: center;
 }
+
+.fix-btm-vol {
+    position: fixed;
+    bottom: 5%;
+    right: 1%;
+    text-align: center;
+}
