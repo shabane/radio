@@ -1,0 +1,3 @@
+[submodule "stations/lofi"]
+	path = stations/lofi
+	url = https://github.com/bit-orbit/lofi.git
