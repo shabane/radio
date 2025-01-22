@@ -57,3 +57,11 @@ class Station {
       });
   }
 }
+
+class Music {
+  constructor(name, url, length) {
+    this.name = name;
+    this.url = url;
+    this.length = length;
+  }
+}
