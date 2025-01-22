@@ -39,8 +39,21 @@ export class Radio extends RadioBase {
 }
 
 class Station {
-  constructor(name, url) {
+  constructor(name, url, music_sub = "/files/musics", bg_sub = "/files/bg") {
     this.name = name;
     this.url = url;
+    this.music_sub = music_sub;
+    this.bg_sub = bg_sub;
+  }
+
+  listMusic() {
+    return axios
+      .get(this.url + this.music_sub)
+      .then((musics) => {
+        return musics.data;
+      })
+      .catch((err) => {
+        return err;
+      });
   }
 }
