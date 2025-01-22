@@ -7,7 +7,7 @@ class RadioBase {
   }
 }
 
-export class Station extends RadioBase {
+export class Radio extends RadioBase {
   constructor() {
     super();
   }
