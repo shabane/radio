@@ -50,7 +50,17 @@ class Station {
     return axios
       .get(this.url + this.music_sub)
       .then((musics) => {
-        return musics.data;
+        let music_list = [];
+        for (let music of musics.data) {
+          music_list.push(
+            new Music(
+              music.name,
+              music.download_url,
+              music.size / Math.pow(2, 20)
+            )
+          );
+        }
+        return music_list;
       })
       .catch((err) => {
         return err;
@@ -62,6 +72,6 @@ class Music {
   constructor(name, url, length) {
     this.name = name;
     this.url = url;
-    this.length = length;
+    this.length = length; // Should be in MB(i like it this way)
   }
 }
