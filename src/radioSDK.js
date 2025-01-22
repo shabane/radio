@@ -18,10 +18,9 @@ export class Radio extends RadioBase {
       .then((stations) => {
         let station_list = [];
         for (let station of stations.data) {
-          station_list.push({
-            name: station.name,
-            url: this.#git_url2repo_url(station.git_url),
-          });
+          station_list.push(
+            new Station(station.name, this.#git_url2repo_url(station.git_url))
+          );
         }
         return station_list;
       })
@@ -36,5 +35,12 @@ export class Radio extends RadioBase {
     url.push("contents");
     url = new URL(url.join("/")).href;
     return url;
+  }
+}
+
+class Station {
+  constructor(name, url) {
+    this.name = name;
+    this.url = url;
   }
 }
