@@ -8,7 +8,7 @@
       />
     </audio>
     <div class="col">
-      <StationSwitch class="stationSwitch col-10" />
+      <StationSwitch class="stationSwitch col-10" id="stationSwitch" />
       <div class="fix-btm-vol col-2">
         <span class="icono-volume"></span>
         <button
@@ -28,7 +28,7 @@
         </button>
 
         <button
-          class="btn btn-outline-secondary m-1"
+          class="btn btn-outline-secondary"
           @click="changeVolTo(50)"
           id="vol-50"
         >
@@ -57,12 +57,18 @@
 
 <script>
 import StationSwitch from "@/components/StationSwitch";
+import { Radio } from "@/radioSDK";
+
 export default {
   name: "HomeView",
   components: { StationSwitch },
   data() {
     return {
       volume: 100,
+      stations: null,
+      musics: null,
+      current_station: null,
+      current_music: null,
     };
   },
   methods: {
@@ -76,6 +82,18 @@ export default {
       document.getElementById("player").volume = vol / 100;
     },
   },
-  mounted() {},
+  mounted() {
+    let radio = new Radio();
+    radio.listStation().then((station_list) => {
+      this.stations = station_list;
+      station_list[0].listMusic().then((musics) => {
+        //TODO: shuffel here^
+        this.musics = musics;
+        this.current_music = musics[9]; //TODO: shuffel here!
+        console.log(this.current_music.length);
+        document.getElementById("player").src = this.current_music.url;
+      });
+    });
+  },
 };
 </script>
