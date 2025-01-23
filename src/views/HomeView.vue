@@ -58,6 +58,7 @@
 <script>
 import StationSwitch from "@/components/StationSwitch";
 import { Radio } from "@/radioSDK";
+import { rnd } from "@/tools";
 
 export default {
   name: "HomeView",
@@ -86,11 +87,9 @@ export default {
     let radio = new Radio();
     radio.listStation().then((station_list) => {
       this.stations = station_list;
-      station_list[0].listMusic().then((musics) => {
-        //TODO: shuffel here^
+      station_list[rnd(station_list.length - 1)].listMusic().then((musics) => {
         this.musics = musics;
-        this.current_music = musics[9]; //TODO: shuffel here!
-        console.log(this.current_music.length);
+        this.current_music = musics[rnd(musics.length - 1)];
         document.getElementById("player").src = this.current_music.url;
       });
     });
