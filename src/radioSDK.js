@@ -52,19 +52,44 @@ class Station {
       .then((musics) => {
         let music_list = [];
         for (let music of musics.data) {
-          music_list.push(
-            new Music(
-              music.name,
-              music.download_url,
-              music.size / Math.pow(2, 20)
-            )
-          );
+          if (this.#isValidMusic(music.download_url)) {
+            music_list.push(
+              new Music(
+                music.name,
+                music.download_url,
+                music.size / Math.pow(2, 20)
+              )
+            );
+          }
         }
         return music_list;
       })
       .catch((err) => {
         return err;
       });
+  }
+
+  #isValidMusic(url) {
+    try {
+      new URL(url);
+    } catch (error) {
+      return false;
+    }
+
+    const supportedAudioExtensions = [
+      ".mp3",
+      ".wav",
+      ".flac",
+      ".ogg",
+      ".aac",
+      ".m4a",
+      ".opus",
+    ];
+
+    const extension = url.split(".").pop().toLowerCase();
+    if (supportedAudioExtensions.includes(`.${extension}`)) {
+      return true;
+    }
   }
 }
 
