@@ -5,7 +5,7 @@
         type="range"
         :min="stationMin"
         :max="stationMax"
-        value="1"
+        :value="position"
         class="slider"
         id="stationSlider"
       />
@@ -19,6 +19,7 @@ export default {
   props: {
     stationMax: Number,
     stationMin: Number,
+    position: Number,
   },
 };
 </script>
