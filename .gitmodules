@@ -1,3 +1,6 @@
 [submodule "stations/lofi"]
 	path = stations/lofi
 	url = https://github.com/bit-orbit/lofi.git
+[submodule "stations/rock"]
+	path = stations/rock
+	url = https://github.com/bit-orbit/rock.git
