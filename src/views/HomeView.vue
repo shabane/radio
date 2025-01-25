@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <audio controls autoplay id="player" hidden>
+    <audio controls autoplay id="player" hidden @ended="playNext()">
       <source src="" type="audio/ogg" autoplay />
     </audio>
     <div class="col">
@@ -140,6 +140,16 @@ export default {
       );
       btn.classList.remove("btn-outline-light");
       btn.classList.add("btn-outline-warning");
+    },
+
+    playNext() {
+      let rm = rnd(this.musics.length);
+      while (rm === this.current_music_position_num) {
+        rm = rnd(this.musics.length);
+      }
+      this.current_music_position_num = rm;
+      document.getElementById("player").src =
+        this.musics[this.current_music_position_num].url;
     },
   },
   mounted() {
