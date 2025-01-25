@@ -4,14 +4,17 @@
       <source src="" type="audio/ogg" autoplay />
     </audio>
     <div class="col">
-      <StationSwitch
-        class="stationSwitch col-10"
-        id="stationSwitch"
-        station-min="0"
-        v-if="stations && current_station_position_num >= 0"
-        :station-max="stations.length - 1"
-        :position="current_station_position_num"
-      />
+      <div class="slidecontainer">
+        <input
+          type="range"
+          min="0"
+          :max="stations.length - 1"
+          v-if="stations"
+          class="stationSwitch slider mb-3"
+          @input="playMusic()"
+          v-model="current_station_position_num"
+        />
+      </div>
       <div class="fix-btm-vol col-2">
         <span class="icono-volume"></span>
         <button
@@ -59,19 +62,19 @@
 </template>
 
 <script>
-import StationSwitch from "@/components/StationSwitch";
+// import StationSwitch from "@/components/StationSwitch";
 import { Radio } from "@/radioSDK";
 import { rnd } from "@/tools";
 
 export default {
   name: "HomeView",
-  components: { StationSwitch },
+  // components: { StationSwitch },
   data() {
     return {
       volume: 100,
       stations: null,
       musics: null,
-      current_station: null,
+      current_station: null, // Fuck this!
       current_music: null,
       current_music_position_num: null,
       current_station_position_num: null,
@@ -86,6 +89,16 @@ export default {
       }
       document.getElementById(`vol-${vol}`).classList.add("btn-outline-light");
       document.getElementById("player").volume = vol / 100;
+    },
+
+    playMusic() {
+      this.stations[this.current_station_position_num]
+        .listMusic()
+        .then((musics) => {
+          this.musics = musics;
+          document.getElementById("player").src =
+            this.musics[rnd(musics.length)].url;
+        });
     },
   },
   mounted() {
