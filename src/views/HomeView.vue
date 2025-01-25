@@ -96,8 +96,9 @@ export default {
         .listMusic()
         .then((musics) => {
           this.musics = musics;
+          this.current_music_position_num = rnd(musics.length);
           document.getElementById("player").src =
-            this.musics[rnd(musics.length)].url;
+            this.musics[this.current_music_position_num].url;
           this.setBg();
         });
     },
