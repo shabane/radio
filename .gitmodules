@@ -4,3 +4,6 @@
 [submodule "stations/rock"]
 	path = stations/rock
 	url = https://github.com/bit-orbit/rock.git
+[submodule "stations/country"]
+	path = stations/country
+	url = https://github.com/bit-orbit/country.git
