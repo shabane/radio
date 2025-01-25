@@ -5,6 +5,18 @@
     </audio>
     <div class="col">
       <div class="slidecontainer">
+        <div
+          class="fix-btm col-lg-12 col-sm-10 col-3 col-md-12"
+          v-if="stations"
+        >
+          <button
+            v-for="station in stations"
+            :key="station.name"
+            class="btn btn-outline-light m-1"
+          >
+            {{ station.name }}
+          </button>
+        </div>
         <input
           type="range"
           min="0"
