@@ -167,6 +167,7 @@ export default {
           this.current_music = musics[this.current_music_position_num];
           document.getElementById("player").src = this.current_music.url;
           this.setBg();
+          this.selectStationBtn();
         });
     });
   },
