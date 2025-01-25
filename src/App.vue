@@ -12,7 +12,8 @@
 }
 
 body {
-  background-image: url("https://raw.githubusercontent.com/bit-orbit/lofi/master/files/bg/bg.gif");
+  background-color: #313131;
+  background-image: url("https://github.com/shabane/radio/blob/master/src/assets/bg.gif?raw=true");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
