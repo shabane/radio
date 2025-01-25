@@ -114,8 +114,8 @@ export default {
           document.getElementById("player").src =
             musics[this.current_music_position_num].url;
           this.selectStationBtn();
+          this.setBg();
         });
-      this.setBg();
     },
 
     setBg() {
