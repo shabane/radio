@@ -77,7 +77,7 @@
 <script>
 // import StationSwitch from "@/components/StationSwitch";
 import { Radio } from "@/radioSDK";
-import { rnd } from "@/tools";
+import { rnd, getVol, setVol } from "@/tools";
 
 export default {
   name: "HomeView",
@@ -102,6 +102,7 @@ export default {
       }
       document.getElementById(`vol-${vol}`).classList.add("btn-outline-light");
       document.getElementById("player").volume = vol / 100;
+      setVol(vol / 100);
     },
 
     playMusic() {
@@ -153,6 +154,7 @@ export default {
     },
   },
   mounted() {
+    this.changeVolTo(getVol() * 100);
     let radio = new Radio();
     radio.listStation().then((station_list) => {
       this.stations = station_list;
