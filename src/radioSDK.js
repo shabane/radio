@@ -52,7 +52,7 @@ class Station {
       .then((musics) => {
         let music_list = [];
         for (let music of musics.data) {
-          if (this.#isValidMusic(music.download_url)) {
+          if (this.isValidMusic(music.download_url)) {
             music_list.push(
               new Music(
                 music.name,
@@ -69,7 +69,8 @@ class Station {
       });
   }
 
-  #isValidMusic(url) {
+  // this shit was private as it should be, but browser had problem with it so it made me to do this!
+  isValidMusic(url) {
     try {
       new URL(url);
     } catch (error) {
@@ -91,6 +92,9 @@ class Station {
       return true;
     }
   }
+
+  //TODO: getBackround
+  //TODO: check isValidImg
 }
 
 class Music {
