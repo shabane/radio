@@ -51,3 +51,10 @@
     background: #04aa6d;
     cursor: pointer;
 }
+
+.fix-btm {
+    position: fixed;
+    bottom: 15%;
+    left: 2%;
+    text-align: center;
+}
