@@ -27,6 +27,6 @@ export function setVol(vol) {
 }
 
 export function getVol() {
-  let vol = getCookie("volume") ? getCookie("volume") : 100;
+  let vol = getCookie("volume") ? getCookie("volume") : 1;
   return vol;
 }
