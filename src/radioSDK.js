@@ -93,8 +93,25 @@ class Station {
     }
   }
 
-  //TODO: getBackround
-  //TODO: check isValidImg
+  getBackgroundUrl() {
+    return axios
+      .get(this.url + this.bg_sub)
+      .then((files) => {
+        for (let file of files.data) {
+          for (let fmt of this.validBgForamts) {
+            if (file.name === fmt) {
+              return file.download_url;
+            }
+          }
+        }
+        return "https://github.com/shabane/radio/blob/master/src/assets/bg.gif?raw=true";
+      })
+      .catch((err) => {
+        return err;
+      });
+  }
+
+  validBgForamts = ["bg.gif", "bg.png", "bg.jpeg", "bg.jpg", "bg.webm"];
 }
 
 class Music {
