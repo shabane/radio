@@ -98,6 +98,15 @@ export default {
           this.musics = musics;
           document.getElementById("player").src =
             this.musics[rnd(musics.length)].url;
+          this.setBg();
+        });
+    },
+
+    setBg() {
+      this.stations[this.current_station_position_num]
+        .getBackgroundUrl()
+        .then((bg) => {
+          document.body.style.background = `url(${bg}) no-repeat fixed center center / cover`;
         });
     },
   },
@@ -113,6 +122,7 @@ export default {
           this.current_music_position_num = rnd(musics.length);
           this.current_music = musics[this.current_music_position_num];
           document.getElementById("player").src = this.current_music.url;
+          this.setBg();
         });
     });
   },
