@@ -13,6 +13,7 @@
             v-for="station in stations"
             :key="station.name"
             class="btn btn-outline-light m-1"
+            :id="station.name"
           >
             {{ station.name }}
           </button>
@@ -110,17 +111,35 @@ export default {
           this.musics = musics;
           this.current_music_position_num = rnd(musics.length);
           document.getElementById("player").src =
-            this.musics[this.current_music_position_num].url;
-          this.setBg();
+            musics[this.current_music_position_num].url;
+          this.selectStationBtn();
         });
+      this.setBg();
     },
 
     setBg() {
       this.stations[this.current_station_position_num]
         .getBackgroundUrl()
         .then((bg) => {
+          document.body.style.background = "#313131";
           document.body.style.background = `url(${bg}) no-repeat fixed center center / cover`;
         });
+    },
+
+    selectStationBtn() {
+      for (let station of this.stations) {
+        document
+          .getElementById(station.name)
+          .classList.remove("btn-outline-warning");
+        document
+          .getElementById(station.name)
+          .classList.add("btn-outline-light");
+      }
+      let btn = document.getElementById(
+        this.stations[this.current_station_position_num].name
+      );
+      btn.classList.remove("btn-outline-light");
+      btn.classList.add("btn-outline-warning");
     },
   },
   mounted() {
