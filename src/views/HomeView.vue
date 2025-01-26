@@ -14,6 +14,7 @@
             :key="station.name"
             class="btn btn-outline-light m-1"
             :id="station.name"
+            :hidden="show_stations_btn"
           >
             {{ station.name }}
           </button>
@@ -26,6 +27,8 @@
           class="stationSwitch slider mb-3"
           @input="playMusic()"
           v-model="current_station_position_num"
+          @mouseenter="this.show_stations_btn = false"
+          @mouseleave="this.show_stations_btn = true"
         />
       </div>
       <div class="fix-btm-vol col-2">
@@ -91,6 +94,7 @@ export default {
       current_music: null,
       current_music_position_num: null,
       current_station_position_num: null,
+      show_stations_btn: true,
     };
   },
   methods: {
