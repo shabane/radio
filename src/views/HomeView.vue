@@ -1,10 +1,18 @@
 <template>
   <div class="home">
-    <audio controls autoplay id="player" hidden @ended="playNext()">
+    <audio
+      controls
+      autoplay
+      id="player"
+      hidden
+      @ended="playNext()"
+      @loadstart="show_music_loading = true"
+      @loadeddata="show_music_loading = false"
+    >
       <source src="" type="audio/ogg" autoplay />
     </audio>
     <button
-      class="btn btn-info mt-5"
+      class="btn btn-info mt-5 m-1"
       type="button"
       disabled
       v-if="show_loading"
@@ -16,6 +24,21 @@
         aria-hidden="true"
       ></span>
     </button>
+
+    <button
+      class="btn btn-info mt-5 m-1"
+      type="button"
+      disabled
+      v-if="show_music_loading"
+    >
+      <span
+        class="spinner-grow spinner-grow-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      <span class="icono-music"></span>
+    </button>
+
     <div class="col">
       <div class="slidecontainer">
         <div
@@ -109,6 +132,7 @@ export default {
       current_station_position_num: null,
       show_stations_btn: true,
       show_loading: false,
+      show_music_loading: false,
     };
   },
   methods: {
