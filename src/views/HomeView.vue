@@ -3,6 +3,19 @@
     <audio controls autoplay id="player" hidden @ended="playNext()">
       <source src="" type="audio/ogg" autoplay />
     </audio>
+    <button
+      class="btn btn-info mt-5"
+      type="button"
+      disabled
+      v-if="show_loading"
+    >
+      Loading...
+      <span
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+    </button>
     <div class="col">
       <div class="slidecontainer">
         <div
@@ -95,6 +108,7 @@ export default {
       current_music_position_num: null,
       current_station_position_num: null,
       show_stations_btn: true,
+      show_loading: false,
     };
   },
   methods: {
@@ -110,6 +124,7 @@ export default {
     },
 
     playMusic() {
+      this.show_loading = true;
       this.stations[this.current_station_position_num]
         .listMusic()
         .then((musics) => {
@@ -119,6 +134,7 @@ export default {
             musics[this.current_music_position_num].url;
           this.selectStationBtn();
           this.setBg();
+          this.show_loading = false;
         });
     },
 
@@ -158,6 +174,7 @@ export default {
     },
   },
   mounted() {
+    this.show_loading = true;
     this.changeVolTo(getVol() * 100);
     let radio = new Radio();
     radio.listStation().then((station_list) => {
@@ -172,6 +189,7 @@ export default {
           document.getElementById("player").src = this.current_music.url;
           this.setBg();
           this.selectStationBtn();
+          this.show_loading = false;
         });
     });
   },
