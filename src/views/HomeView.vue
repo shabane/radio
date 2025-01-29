@@ -9,7 +9,7 @@
       @loadstart="show_music_loading = true"
       @loadeddata="show_music_loading = false"
     >
-      <source src="" type="audio/ogg" autoplay />
+      <source src="" type="audio/ogg" />
     </audio>
     <button
       class="btn btn-info mt-5 m-1"
@@ -159,6 +159,7 @@ export default {
           this.selectStationBtn();
           this.setBg();
           this.show_loading = false;
+          document.getElementById("player").play();
         });
     },
 
