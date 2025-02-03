@@ -26,6 +26,11 @@
       </div>
     </button>
 
+    <!-- Add this new section to display song name -->
+    <div v-if="current_music" class="song-info mt-3">
+      <h5 class="text-light">Now Playing: {{ current_music.name }}</h5>
+    </div>
+
     <button
       class="btn btn-info mt-5 m-1"
       type="button"
@@ -170,6 +175,7 @@ export default {
         .then((musics) => {
           this.musics = musics;
           this.current_music_position_num = rnd(musics.length);
+          this.current_music = musics[this.current_music_position_num];
           document.getElementById("player").src =
             musics[this.current_music_position_num].url;
           this.selectStationBtn();
@@ -210,6 +216,7 @@ export default {
         rm = rnd(this.musics.length);
       }
       this.current_music_position_num = rm;
+      this.current_music = this.musics[this.current_music_position_num];
       document.getElementById("player").src =
         this.musics[this.current_music_position_num].url;
     },
@@ -245,3 +252,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.song-info {
+  text-align: center;
+}
+</style>
