@@ -14,9 +14,16 @@
       <source src="" type="audio/ogg" />
     </audio>
 
-    <button class="cntr play-btn" @click="playPause()">
-      <span class="icono-pause" v-if="played"></span>
-      <span class="icono-play" v-else></span>
+    <button class="play-pause-btn" @click="playPause()">
+      <div v-if="played" class="pause-icon">
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <div v-else class="play-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+      </div>
     </button>
 
     <button
