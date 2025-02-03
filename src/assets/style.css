@@ -58,3 +58,25 @@
     left: 2%;
     text-align: center;
 }
+
+.cntr {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.play-btn {
+    width: auto;
+    height: 10%;
+    background-color: transparent;
+    border-radius: 10%;
+    opacity: 85%;
+    border: 1px solid #42b983;
+    filter: blur(1px);
+}
+
+.play-btn:hover {
+    border: 1px solid #a569bd;
+    filter: blur(0px);
+}

@@ -8,9 +8,17 @@
       @ended="playNext()"
       @loadstart="show_music_loading = true"
       @loadeddata="show_music_loading = false"
+      @pause="played = false"
+      @play="played = true"
     >
       <source src="" type="audio/ogg" />
     </audio>
+
+    <button class="cntr play-btn" @click="playPause()">
+      <span class="icono-pause" v-if="played"></span>
+      <span class="icono-play" v-else></span>
+    </button>
+
     <button
       class="btn btn-info mt-5 m-1"
       type="button"
@@ -133,6 +141,7 @@ export default {
       show_stations_btn: true,
       show_loading: false,
       show_music_loading: false,
+      played: false,
     };
   },
   methods: {
@@ -196,6 +205,15 @@ export default {
       this.current_music_position_num = rm;
       document.getElementById("player").src =
         this.musics[this.current_music_position_num].url;
+    },
+
+    playPause() {
+      let ply = document.getElementById("player");
+      if (this.played) {
+        ply.pause();
+      } else {
+        ply.play();
+      }
     },
   },
   mounted() {
