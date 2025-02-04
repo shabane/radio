@@ -27,8 +27,14 @@
     </button>
 
     <!-- Add this new section to display song name -->
-    <div v-if="current_music" class="song-info mt-3">
-      <h5 class="text-light">Now Playing: {{ current_music.name }}</h5>
+    <div
+      v-if="current_music && stations[current_station_position_num].name"
+      class="song-info mt-3"
+    >
+      <h5 class="text-light">
+        {{ stations[current_station_position_num].name }}:
+        {{ current_music.name }}
+      </h5>
     </div>
 
     <button
