@@ -33,7 +33,7 @@
     >
       <h5 class="text-light">
         {{ stations[current_station_position_num].name }}:
-        {{ current_music.name }}
+        {{ current_music.name.split(".")[0] }}
       </h5>
     </div>
 
