@@ -7,3 +7,6 @@
 [submodule "stations/country"]
 	path = stations/country
 	url = https://github.com/bit-orbit/country.git
+[submodule "stations/taylor-swift"]
+	path = stations/taylor-swift
+	url = https://github.com/js-radio/taylor-swift.git
