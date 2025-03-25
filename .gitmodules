@@ -10,3 +10,6 @@
 [submodule "stations/taylor-swift"]
 	path = stations/taylor-swift
 	url = https://github.com/js-radio/taylor-swift.git
+[submodule "stations/Leonard-Cohen"]
+	path = stations/Leonard-Cohen
+	url = https://github.com/js-radio/Leonard-Cohen.git
