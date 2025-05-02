@@ -76,7 +76,7 @@
             :key="station.name"
             class="btn btn-outline-light m-1"
             :id="station.name"
-            :hidden="show_stations_btn"
+            :disabled="show_stations_btn"
           >
             {{ station.name }}
           </button>
