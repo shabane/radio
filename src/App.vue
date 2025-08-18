@@ -1,4 +1,5 @@
 <template>
+  <NavBar />
   <router-view />
 </template>
 
@@ -21,3 +22,10 @@ body {
   background-position: center center;
 }
 </style>
+
+<script>
+import NavBar from "@/components/NavBar.vue";
+export default {
+  components: { NavBar },
+};
+</script>
