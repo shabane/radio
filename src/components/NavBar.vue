@@ -109,9 +109,9 @@ export default {
   font-family: "Poppins", sans-serif;
 }
 
-/* Ensure the nav items are stacked vertically */
+/* Ensure the nav items are stacked vertically and centered */
 .navbar-nav {
-  align-items: flex-start;
+  align-items: center; /* CHANGED: This centers all the list items */
 }
 
 /* Style the brand/logo now that it's inside the menu */
@@ -122,6 +122,7 @@ export default {
   letter-spacing: 1px;
   display: flex;
   align-items: center;
+  justify-content: center; /* ADDED: This centers the SVG and "Radio" text */
   width: 100%;
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
@@ -133,6 +134,7 @@ export default {
   font-weight: 500;
   transition: color 0.3s ease;
   padding: 0.5rem 0.25rem;
+  text-align: center; /* ADDED: Explicitly center nav link text */
 }
 
 .nav-link:hover,
