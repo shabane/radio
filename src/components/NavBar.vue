@@ -53,11 +53,11 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="https://wiregeek.ir">Blog</a>
+          <a class="nav-link" href="https://wiregeek.ir">/Blog</a>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link" to="/about">About</router-link>
+          <router-link class="nav-link" to="/about">/About</router-link>
         </li>
 
         <li class="nav-item" v-if="this.$route.path === '/'">
