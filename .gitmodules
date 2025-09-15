@@ -22,3 +22,6 @@
 [submodule "stations/ModernTalking"]
 	path = stations/ModernTalking
 	url = https://github.com/js-radio/ModernTalking.git
+[submodule "stations/rostam"]
+	path = stations/rostam
+	url = https://github.com/js-radio/rostam.git
