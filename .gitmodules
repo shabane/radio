@@ -25,3 +25,6 @@
 [submodule "stations/waves"]
 	path = stations/waves
 	url = https://github.com/js-radio/waves.git
+[submodule "stations/Weeping Willow"]
+	path = stations/Weeping Willow
+	url = https://github.com/js-radio/WeepingWillow.git
