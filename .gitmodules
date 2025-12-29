@@ -16,12 +16,12 @@
 [submodule "stations/jazz"]
 	path = stations/jazz
 	url = https://github.com/shabane/jazz.git
-[submodule "stations/waves"]
-	path = stations/waves
-	url = https://github.com/js-radio/waves.git
 [submodule "stations/ModernTalking"]
 	path = stations/ModernTalking
 	url = https://github.com/js-radio/ModernTalking.git
 [submodule "stations/rostam"]
 	path = stations/rostam
 	url = https://github.com/js-radio/rostam.git
+[submodule "stations/waves"]
+	path = stations/waves
+	url = https://github.com/js-radio/waves.git
