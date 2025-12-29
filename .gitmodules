@@ -25,6 +25,3 @@
 [submodule "stations/rostam"]
 	path = stations/rostam
 	url = https://github.com/js-radio/rostam.git
-[submodule "stations/waves"]
-	path = stations/waves
-	url = https://github.com/js-radio/waves.git
