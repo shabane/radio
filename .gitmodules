@@ -16,9 +16,9 @@
 [submodule "stations/jazz"]
 	path = stations/jazz
 	url = https://github.com/shabane/jazz.git
-[submodule "stations/silent"]
-	path = stations/silent
-	url = https://github.com/js-radio/silent.git
+[submodule "stations/waves"]
+	path = stations/waves
+	url = https://github.com/js-radio/waves.git
 [submodule "stations/ModernTalking"]
 	path = stations/ModernTalking
 	url = https://github.com/js-radio/ModernTalking.git
