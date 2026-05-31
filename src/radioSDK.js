@@ -25,7 +25,8 @@ export class Radio extends RadioBase {
         return station_list;
       })
       .catch((err) => {
-        return err;
+        console.error("Failed to fetch stations:", err);
+        throw err;
       });
   }
 
@@ -65,7 +66,8 @@ class Station {
         return music_list;
       })
       .catch((err) => {
-        return err;
+        console.error(`Failed to fetch music for station ${this.name}:`, err);
+        throw err;
       });
   }
 
@@ -107,7 +109,8 @@ class Station {
         return "https://github.com/shabane/radio/blob/master/src/assets/bg.gif?raw=true";
       })
       .catch((err) => {
-        return err;
+        console.error(`Failed to fetch background for station ${this.name}:`, err);
+        throw err;
       });
   }
 

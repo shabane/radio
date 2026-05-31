@@ -9,7 +9,7 @@
       id="player"
       hidden
       @ended="playNext()"
-      @error="playNext()"
+      @error="handleAudioError"
       @loadstart="show_music_loading = true"
       @loadedmetadata="handleMetadataLoaded"
       @timeupdate="handleTimeUpdate"
@@ -32,7 +32,7 @@
 
     <!-- Song Info Display -->
     <div
-      v-if="current_music && stations && stations[current_station_position_num]"
+      v-if="current_music && stations && stations[current_station_position_num] && !isFullscreen"
       class="fixed top-[15%] left-1/2 -translate-x-1/2 w-full text-center px-4"
     >
       <h2
@@ -50,53 +50,79 @@
     <!-- Bottom Player Bar -->
     <Card
       v-show="!isFullscreen"
-      class="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[95%] border-white/10 bg-zinc-900/40 backdrop-blur-md shadow-2xl rounded-2xl flex flex-col p-4 md:p-6 gap-4 z-50 text-white transition-all duration-500 ease-in-out"
+      class="fixed bottom-[5%] left-1/2 -translate-x-1/2 w-[95%] border-white/10 bg-zinc-900/40 backdrop-blur-md shadow-2xl rounded-2xl flex flex-col p-4 md:p-6 gap-3 md:gap-4 z-50 text-white transition-all duration-500 ease-in-out"
     >
-      <CardContent class="p-0 flex flex-col gap-6">
-        <!-- Station Selection Chips -->
+      <CardContent class="p-0 flex flex-col gap-4 md:gap-6">
+        <!-- Station Selection Chips with horizontal scroll and buttons for mobile -->
         <div
-          class="flex flex-wrap justify-center gap-2 md:gap-3 w-full"
+          class="relative w-full flex items-center justify-between gap-1 md:block"
           v-if="stations"
         >
+          <!-- Left Arrow Button (visible only on mobile) -->
           <Button
-            variant="outline"
-            class="rounded-full bg-transparent border-transparent hover:bg-white/20 transition-all text-zinc-300 hover:text-white"
-            :class="{
-              'bg-primary/40 border-primary/50 text-white shadow-[0_4px_15px_rgba(165,105,189,0.4)]':
-                (pending_station_position_num === 'stream') || (pending_station_position_num === null && is_streaming),
-            }"
-            @click="startStream()"
-            :disabled="show_loading"
+            variant="ghost"
+            size="icon"
+            class="md:hidden text-white/70 hover:text-white bg-white/5 hover:bg-white/10 shrink-0 w-8 h-8 rounded-full border border-white/5"
+            @click="scrollStations('left')"
           >
-            <RadioIcon class="w-4 h-4 mr-2" />
-            Stream
+            <ChevronLeft class="w-4 h-4" />
           </Button>
-          <Button
-            v-for="(station, index) in stations"
-            :key="station.name"
-            variant="outline"
-            class="rounded-full bg-transparent border-transparent hover:bg-white/20 transition-all text-zinc-300 hover:text-white"
-            :class="{
-              'bg-primary/40 border-primary/50 text-white shadow-[0_4px_15px_rgba(165,105,189,0.4)]':
-                (pending_station_position_num === index) || (pending_station_position_num === null && !is_streaming && current_station_position_num === index),
-            }"
-            @click="changeStation(index)"
-            :disabled="show_loading"
+
+          <!-- Scrollable Container -->
+          <div
+            ref="stationsContainer"
+            class="flex overflow-x-auto scroll-smooth no-scrollbar gap-2 w-full justify-start md:justify-center md:flex-wrap md:overflow-x-visible md:scroll-auto px-1 py-1"
           >
-            {{ station.name }}
+            <Button
+              variant="outline"
+              class="rounded-full bg-transparent border-transparent hover:bg-white/20 transition-all text-zinc-300 hover:text-white shrink-0 md:shrink"
+              :class="{
+                'bg-primary/40 border-primary/50 text-white shadow-[0_4px_15px_rgba(165,105,189,0.4)]':
+                  (pending_station_position_num === 'stream') || (pending_station_position_num === null && is_streaming),
+              }"
+              @click="startStream()"
+              :disabled="show_loading"
+            >
+              <RadioIcon class="w-4 h-4 mr-2" />
+              Stream
+            </Button>
+            <Button
+              v-for="(station, index) in stations"
+              :key="station.name"
+              variant="outline"
+              class="rounded-full bg-transparent border-transparent hover:bg-white/20 transition-all text-zinc-300 hover:text-white shrink-0 md:shrink"
+              :class="{
+                'bg-primary/40 border-primary/50 text-white shadow-[0_4px_15px_rgba(165,105,189,0.4)]':
+                  (pending_station_position_num === index) || (pending_station_position_num === null && !is_streaming && current_station_position_num === index),
+              }"
+              @click="changeStation(index)"
+              :disabled="show_loading"
+            >
+              {{ station.name }}
+            </Button>
+          </div>
+
+          <!-- Right Arrow Button (visible only on mobile) -->
+          <Button
+            variant="ghost"
+            size="icon"
+            class="md:hidden text-white/70 hover:text-white bg-white/5 hover:bg-white/10 shrink-0 w-8 h-8 rounded-full border border-white/5"
+            @click="scrollStations('right')"
+          >
+            <ChevronRight class="w-4 h-4" />
           </Button>
         </div>
 
         <!-- Controls Row -->
         <div
-          class="flex flex-col md:flex-row items-center justify-between w-full border-t border-white/10 pt-4 gap-6 md:gap-0"
+          class="flex items-center justify-between w-full border-t border-white/10 pt-3 md:pt-4 gap-4"
         >
           <!-- Spacer for center alignment on desktop -->
           <div class="hidden md:block flex-1"></div>
 
           <!-- Play/Pause -->
-          <div class="flex-1 flex justify-center items-center">
-            <div class="relative flex justify-center items-center w-24 h-24">
+          <div class="flex-1 flex justify-start md:justify-center items-center">
+            <div class="relative flex justify-center items-center w-16 h-16 md:w-20 md:h-20">
               <!-- Loading Ring -->
               <svg
                 v-if="show_loading || show_music_loading"
@@ -167,9 +193,9 @@
               <Button
                 variant="outline"
                 size="icon"
-                class="relative w-16 h-16 rounded-full border-transparent hover:scale-105 transition-all text-white z-10"
+                class="relative w-11 h-11 md:w-14 md:h-14 rounded-full border-transparent hover:scale-105 transition-all text-white z-10"
                 :class="[
-                  played ? 'shadow-[0_0_20px_rgba(165,105,189,0.6)]' : '',
+                  played ? 'shadow-[0_0_15px_rgba(165,105,189,0.5)]' : '',
                   is_streaming
                     ? 'bg-primary/40 hover:bg-primary/50'
                     : 'bg-white/10 hover:bg-white/20',
@@ -177,18 +203,18 @@
                 @click="playPause()"
                 :disabled="show_loading"
               >
-                <Pause v-if="played" class="w-8 h-8 fill-current text-white" />
-                <Play v-else class="w-8 h-8 fill-current text-white ml-1" />
+                <Pause v-if="played" class="w-5 h-5 md:w-6 md:h-6 fill-current text-white" />
+                <Play v-else class="w-5 h-5 md:w-6 md:h-6 fill-current text-white ml-0.5" />
               </Button>
             </div>
           </div>
 
           <!-- Volume Control -->
           <div
-            class="flex-1 flex justify-center md:justify-end items-center gap-4 w-full md:w-auto"
+            class="flex-1 flex justify-end items-center gap-2 md:gap-4"
           >
-            <Volume2 class="w-6 h-6 text-zinc-400" />
-            <div class="w-full max-w-[150px] md:w-[120px]">
+            <Volume2 class="w-5 h-5 md:w-6 md:h-6 text-zinc-400" />
+            <div class="w-24 md:w-[120px]">
               <Slider
                 v-model="volumeArray"
                 :max="100"
@@ -201,13 +227,44 @@
         </div>
       </CardContent>
     </Card>
+
+    <!-- Error Display State -->
+    <div
+      v-if="errorMessage"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md p-6 bg-zinc-950/90 backdrop-blur-xl border border-white/10 rounded-2xl text-white text-center shadow-2xl z-50 flex flex-col items-center gap-4 animate-in fade-in zoom-in-95 duration-200"
+    >
+      <div class="w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center text-red-500 mb-2">
+        <AlertTriangle class="w-6 h-6" />
+      </div>
+      <h3 class="text-lg font-bold">خطا در بارگذاری رادیو</h3>
+      <p class="text-zinc-300 text-sm leading-relaxed" style="direction: rtl;">
+        {{ errorMessage }}
+      </p>
+      <div class="flex gap-3 w-full justify-center mt-2">
+        <Button
+          variant="outline"
+          class="border-primary text-primary hover:bg-primary hover:text-white transition-colors px-6"
+          @click="retryLastAction"
+        >
+          تلاش مجدد
+        </Button>
+        <Button
+          v-if="stations"
+          variant="ghost"
+          class="text-zinc-400 hover:text-white transition-colors px-6"
+          @click="errorMessage = null"
+        >
+          بستن
+        </Button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import { Radio } from "@/radioSDK";
 import { rnd, getVol, setVol } from "@/tools";
-import { Play, Pause, Volume2, Radio as RadioIcon, Maximize, Minimize } from "lucide-vue-next";
+import { Play, Pause, Volume2, Radio as RadioIcon, Maximize, Minimize, ChevronLeft, ChevronRight, AlertTriangle } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
@@ -221,6 +278,9 @@ export default {
     RadioIcon,
     Maximize,
     Minimize,
+    ChevronLeft,
+    ChevronRight,
+    AlertTriangle,
     Button,
     Slider,
     Card,
@@ -246,6 +306,8 @@ export default {
       pending_station_position_num: null,
       currentLoadId: null,
       isFullscreen: false,
+      errorMessage: null,
+      consecutiveAudioErrors: 0,
     };
   },
   computed: {
@@ -286,6 +348,7 @@ export default {
       if (this.all_musics.length === 0) return;
       this.pending_station_position_num = 'stream';
       this.show_loading = true;
+      this.errorMessage = null;
       const loadId = Date.now();
       this.currentLoadId = loadId;
 
@@ -301,9 +364,16 @@ export default {
       this.is_streaming = true;
       this.pending_station_position_num = null;
       this.current_music = newMusic;
-      document.getElementById("player").src = newMusic.url;
+      
+      const player = document.getElementById("player");
+      if (player) {
+        player.src = newMusic.url;
+      }
       this.show_loading = false;
-      document.getElementById("player").play();
+      this.consecutiveAudioErrors = 0;
+      if (player) {
+        player.play().catch(e => console.warn("Auto-play failed:", e));
+      }
     },
 
     handleMetadataLoaded() {
@@ -323,6 +393,7 @@ export default {
 
     playMusic(targetIndex) {
       this.show_loading = true;
+      this.errorMessage = null;
       const loadId = Date.now();
       this.currentLoadId = loadId;
 
@@ -330,25 +401,46 @@ export default {
         .listMusic()
         .then((musics) => {
           if (this.currentLoadId !== loadId) return;
+          if (!musics || musics.length === 0) {
+            throw new Error("این ایستگاه در حال حاضر آهنگی ندارد.");
+          }
 
           let newMusicPos = rnd(musics.length);
           let newMusic = musics[newMusicPos];
 
-          this.preloadBg(targetIndex).then((bgUrl) => {
-            if (this.currentLoadId !== loadId) return;
+          this.preloadBg(targetIndex)
+            .then((bgUrl) => {
+              if (this.currentLoadId !== loadId) return;
 
-            this.current_station_position_num = targetIndex;
-            this.pending_station_position_num = null;
-            this.musics = musics;
-            this.current_music_position_num = newMusicPos;
-            this.current_music = newMusic;
-            document.getElementById("player").src = newMusic.url;
-            if (bgUrl) {
-              document.body.style.backgroundImage = `url(${bgUrl})`;
-            }
-            this.show_loading = false;
-            document.getElementById("player").play();
-          });
+              this.current_station_position_num = targetIndex;
+              this.pending_station_position_num = null;
+              this.musics = musics;
+              this.current_music_position_num = newMusicPos;
+              this.current_music = newMusic;
+              
+              const player = document.getElementById("player");
+              if (player) {
+                player.src = newMusic.url;
+              }
+              if (bgUrl) {
+                document.body.style.backgroundImage = `url(${bgUrl})`;
+              }
+              this.show_loading = false;
+              this.consecutiveAudioErrors = 0;
+              if (player) {
+                player.play().catch(e => console.warn("Auto-play failed:", e));
+              }
+            })
+            .catch(err => {
+              if (this.currentLoadId !== loadId) return;
+              this.show_loading = false;
+              this.handleHTTPError(err);
+            });
+        })
+        .catch((err) => {
+          if (this.currentLoadId !== loadId) return;
+          this.show_loading = false;
+          this.handleHTTPError(err);
         });
     },
 
@@ -397,15 +489,22 @@ export default {
         return;
       }
 
+      if (!this.musics || this.musics.length === 0) return;
+
       let rm = rnd(this.musics.length);
-      while (rm === this.current_music_position_num) {
-        rm = rnd(this.musics.length);
+      if (this.musics.length > 1) {
+        while (rm === this.current_music_position_num) {
+          rm = rnd(this.musics.length);
+        }
       }
       this.current_music_position_num = rm;
       this.current_music = this.musics[this.current_music_position_num];
-      document.getElementById("player").src =
-        this.musics[this.current_music_position_num].url;
-      document.getElementById("player").play();
+      
+      const player = document.getElementById("player");
+      if (player && this.current_music) {
+        player.src = this.current_music.url;
+        player.play().catch(e => console.warn("Auto-play failed:", e));
+      }
     },
 
     playPause() {
@@ -413,12 +512,129 @@ export default {
       if (this.played) {
         ply.pause();
       } else {
-        ply.play();
+        ply.play().catch(e => console.warn("Play failed:", e));
+      }
+    },
+
+    initRadio() {
+      this.show_loading = true;
+      this.errorMessage = null;
+
+      let radio = new Radio();
+      radio.listStation()
+        .then((station_list) => {
+          this.stations = station_list;
+          if (!station_list || station_list.length === 0) {
+            throw new Error("هیچ ایستگاه رادیویی در دسترس نیست.");
+          }
+          
+          if (this.current_station_position_num === null) {
+            this.current_station_position_num = rnd(this.stations.length);
+          }
+
+          // Fetch music for all stations in background
+          Promise.all(
+            station_list.map((s) => 
+              s.listMusic().catch(err => {
+                console.warn(`Failed to fetch music for station ${s.name} during initialization:`, err);
+                return [];
+              })
+            )
+          ).then((results) => {
+            this.all_musics = [];
+            results.forEach((musics) => {
+              if (Array.isArray(musics)) {
+                this.all_musics.push(...musics);
+              }
+            });
+          });
+
+          // Fetch music for current station
+          return station_list[this.current_station_position_num].listMusic();
+        })
+        .then((musics) => {
+          if (!musics || musics.length === 0) {
+            throw new Error("هیچ آهنگی برای ایستگاه فعلی پیدا نشد.");
+          }
+          this.musics = musics;
+          this.current_music_position_num = rnd(musics.length);
+          this.current_music = musics[this.current_music_position_num];
+
+          return this.preloadBg(this.current_station_position_num);
+        })
+        .then((bgUrl) => {
+          const player = document.getElementById("player");
+          if (player && this.current_music) {
+            player.src = this.current_music.url;
+          }
+          if (bgUrl) {
+            document.body.style.backgroundImage = `url(${bgUrl})`;
+          }
+          this.show_loading = false;
+          this.consecutiveAudioErrors = 0;
+        })
+        .catch((err) => {
+          console.error("Initialization error:", err);
+          this.show_loading = false;
+          this.handleHTTPError(err);
+        });
+    },
+
+    handleHTTPError(err) {
+      if (err.response) {
+        const status = err.response.status;
+        if (status === 403) {
+          this.errorMessage = "تعداد درخواست‌های ارسالی به سرور گیت‌هاب بیش از حد مجاز است (خطای ۴۰۳). لطفاً کمی صبر کنید یا از فیلترشکن/VPN استفاده کنید.";
+        } else if (status === 404) {
+          this.errorMessage = "منابع پیدا نشدند (خطای ۴۰۴).";
+        } else {
+          this.errorMessage = `خطای سرور (${status}). لطفاً دوباره تلاش کنید.`;
+        }
+      } else if (err.request) {
+        this.errorMessage = "خطا در اتصال به شبکه. لطفاً اتصال اینترنت خود را بررسی کنید.";
+      } else {
+        this.errorMessage = err.message || "خطایی رخ داده است. لطفاً دوباره تلاش کنید.";
+      }
+    },
+
+    handleAudioError(e) {
+      console.error("Audio player error:", e);
+      this.consecutiveAudioErrors++;
+      
+      if (this.consecutiveAudioErrors >= 3) {
+        this.show_music_loading = false;
+        this.show_loading = false;
+        this.played = false;
+        this.errorMessage = "پخش موسیقی با خطا مواجه شد. ایستگاه یا منابع صوتی ممکن است موقتاً در دسترس نباشند.";
+      } else {
+        // Try playing next song after a delay
+        setTimeout(() => {
+          this.playNext();
+        }, 1500);
+      }
+    },
+
+    retryLastAction() {
+      if (!this.stations) {
+        this.initRadio();
+      } else if (this.is_streaming) {
+        this.startStream();
+      } else if (this.current_station_position_num !== null) {
+        this.playMusic(this.current_station_position_num);
+      } else {
+        this.initRadio();
+      }
+    },
+
+    scrollStations(direction) {
+      const container = this.$refs.stationsContainer;
+      if (container) {
+        const scrollAmount = direction === 'left' ? -120 : 120;
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     },
   },
   mounted() {
-    this.show_loading = true;
     this.volumeArray = [getVol() * 100];
     setTimeout(() => {
       let player = document.getElementById("player");
@@ -427,33 +643,7 @@ export default {
 
     document.addEventListener('fullscreenchange', this.handleFullscreenChange);
 
-    let radio = new Radio();
-    radio.listStation().then((station_list) => {
-      this.stations = station_list;
-      this.current_station_position_num = rnd(this.stations.length);
-
-      Promise.all(station_list.map((s) => s.listMusic())).then((results) => {
-        results.forEach((musics) => {
-          this.all_musics.push(...musics);
-        });
-      });
-
-      station_list[this.current_station_position_num]
-        .listMusic()
-        .then((musics) => {
-          this.musics = musics;
-          this.current_music_position_num = rnd(musics.length);
-          this.current_music = musics[this.current_music_position_num];
-          
-          this.preloadBg(this.current_station_position_num).then((bgUrl) => {
-            document.getElementById("player").src = this.current_music.url;
-            if (bgUrl) {
-              document.body.style.backgroundImage = `url(${bgUrl})`;
-            }
-            this.show_loading = false;
-          });
-        });
-    });
+    this.initRadio();
   },
   beforeUnmount() {
     document.removeEventListener('fullscreenchange', this.handleFullscreenChange);
@@ -462,5 +652,11 @@ export default {
 </script>
 
 <style scoped>
-/* Scoped styles can be completely omitted as Tailwind handles it all */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 </style>
