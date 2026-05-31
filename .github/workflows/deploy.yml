@@ -1,0 +1,40 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - master # Triggers when you push to the master branch
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }} # Prevents concurrent deployment runs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source 🛎️
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive # Fetch lofi, rock, and other station submodules recursively
+
+      - name: Set up Node.js ⚙️
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Dependencies 🔧
+        run: npm ci
+
+      - name: Build Application 🔨
+        run: npm run build
+
+      - name: Deploy to Target Repo 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # The folder the action should deploy (Vue build output)
+          repository-name: js-radio/js-radio.github.io # Target repo inside your org
+          branch: main # Deployment branch (usually main for user/org pages repos)
+          token: ${{ secrets.DEPLOY_TOKEN }} # PAT token with write access to js-radio/js-radio.github.io

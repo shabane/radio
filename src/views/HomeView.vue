@@ -62,7 +62,7 @@
           <Button
             variant="ghost"
             size="icon"
-            class="md:hidden text-white/70 hover:text-white bg-white/5 hover:bg-white/10 shrink-0 w-8 h-8 rounded-full border border-white/5"
+            class="md:hidden text-primary hover:text-white bg-primary/20 hover:bg-primary/40 border border-primary/30 hover:border-primary/50 shadow-[0_0_10px_rgba(165,105,189,0.3)] hover:shadow-[0_0_15px_rgba(165,105,189,0.5)] shrink-0 w-8 h-8 rounded-full transition-all duration-300"
             @click="scrollStations('left')"
           >
             <ChevronLeft class="w-4 h-4" />
@@ -106,7 +106,7 @@
           <Button
             variant="ghost"
             size="icon"
-            class="md:hidden text-white/70 hover:text-white bg-white/5 hover:bg-white/10 shrink-0 w-8 h-8 rounded-full border border-white/5"
+            class="md:hidden text-primary hover:text-white bg-primary/20 hover:bg-primary/40 border border-primary/30 hover:border-primary/50 shadow-[0_0_10px_rgba(165,105,189,0.3)] hover:shadow-[0_0_15px_rgba(165,105,189,0.5)] shrink-0 w-8 h-8 rounded-full transition-all duration-300"
             @click="scrollStations('right')"
           >
             <ChevronRight class="w-4 h-4" />
