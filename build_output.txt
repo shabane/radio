@@ -1,0 +1,56 @@
+
+> radio@0.1.0 build
+> vue-cli-service build
+
+All browser targets in the browserslist configuration have supported ES module.
+Therefore we don't build two separate bundles for differential loading.
+
+
+-  Building for production...
+ ERROR  Failed to compile with 4 errors1:29:34 AM
+
+ error  in ./src/components/ui/button/Button.vue?vue&type=script&setup=true&lang=js
+
+Module not found: Error: Can't resolve '@/lib/utils' in '/home/arya/Projects/self/radio/src/components/ui/button'
+
+ error  in ./src/components/ui/card/Card.vue?vue&type=script&setup=true&lang=js
+
+Module not found: Error: Can't resolve '@/lib/utils' in '/home/arya/Projects/self/radio/src/components/ui/card'
+
+ error  in ./src/components/ui/sheet/SheetContent.vue?vue&type=script&setup=true&lang=js
+
+Module not found: Error: Can't resolve '@/lib/utils' in '/home/arya/Projects/self/radio/src/components/ui/sheet'
+
+ error  in ./src/components/ui/slider/Slider.vue?vue&type=script&setup=true&lang=js
+
+Module not found: Error: Can't resolve '@/lib/utils' in '/home/arya/Projects/self/radio/src/components/ui/slider'
+
+ ERROR  Error: Build failed with errors.
+Error: Build failed with errors.
+    at /home/arya/Projects/self/radio/node_modules/@vue/cli-service/lib/commands/build/index.js:207:23
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/webpack.js:168:8
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/HookWebpackError.js:67:2
+    at Hook.eval [as callAsync] (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/arya/Projects/self/radio/node_modules/tapable/lib/Hook.js:18:14)
+    at Cache.shutdown (/home/arya/Projects/self/radio/node_modules/webpack/lib/Cache.js:154:23)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:1379:15
+    at Hook.eval [as callAsync] (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/arya/Projects/self/radio/node_modules/tapable/lib/Hook.js:18:14)
+    at Compiler.close (/home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:1372:23)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/webpack.js:167:16
+    at finalCallback (/home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:500:32)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:524:13
+    at Hook.eval [as callAsync] (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:24:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/arya/Projects/self/radio/node_modules/tapable/lib/Hook.js:18:14)
+    at onCompiled (/home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:522:21)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:1350:17
+    at Hook.eval [as callAsync] (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/arya/Projects/self/radio/node_modules/tapable/lib/Hook.js:18:14)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compiler.js:1346:33
+    at finalCallback (/home/arya/Projects/self/radio/node_modules/webpack/lib/Compilation.js:2938:11)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compilation.js:3251:11
+    at Hook.eval [as callAsync] (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:6:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/home/arya/Projects/self/radio/node_modules/tapable/lib/Hook.js:18:14)
+    at /home/arya/Projects/self/radio/node_modules/webpack/lib/Compilation.js:3244:38
+    at eval (eval at create (/home/arya/Projects/self/radio/node_modules/tapable/lib/HookCodeFactory.js:33:10), <anonymous>:17:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
